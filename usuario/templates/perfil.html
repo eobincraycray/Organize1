@@ -1,0 +1,179 @@
+<!-- <h2>Editar Tarefa</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="titulo">Título</label>
+    <input type="text" name="titulo" value="{{ tarefa.titulo }}" required>
+    <label for="descricao">Descrição</label>
+    <textarea name="descricao">{{ tarefa.descricao }}</textarea>
+    <button type="submit">Salvar Alterações</button>
+</form>
+-->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt_BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Tarefas - Organize</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css" rel="stylesheet">
+
+  <!-- FullCalendar JS -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet" />
+
+</head>
+
+<body class="starter-page-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <!-- Logo da plataforma -->
+      <a href="#" class="logo d-flex align-items-center me-auto me-xl-0">
+        <img src="{% static 'img\logoorganize.svg' %}" alt="Logo do site" class="img-fluid">
+      </a>
+
+      <!-- Menu de navegação -->
+      <nav id="navmenu" class="navmenu d-flex align-items-center">
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <!-- Círculo do perfil de usuário -->
+      <div class="user-profile position-relative">
+        <div class="profile-circle" onclick="toggleDropdown()">
+          <!-- As iniciais serão inseridas via JS -->
+          {{ username|slice:":2"|upper }}
+        </div>
+        <div id="profileDropdown" class="dropdown-menu dropdown-hidden">
+          <a href="{% url 'usuario:perfil' %}">Perfil</a>
+          <form method="POST" action="{% url 'usuario:logout' %}">
+            {% csrf_token %}
+            <button type="submit">Sair</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Page Title -->
+    <div class="page-titleuser light-background">
+      <div class="container">
+        <h1>Perfil</h1>
+      </div>
+    </div><!-- End Page Title -->
+
+    <div class="container mt-4 p-4 border rounded shadow-sm bg-light">
+    <h2 class="text-center text-primary mb-4">Meu Perfil</h2>
+
+    <p><strong>Nome:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+    <p><strong>Usuário:</strong> <span class="badge bg-secondary">{{ user.username }}</span></p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <div class="d-grid mt-4">
+        <a href="{% url 'usuario:editar_perfil' %}" class="btn btn-warning">
+            <i class="bi bi-pencil"></i> Editar Perfil
+        </a>
+    </div>
+</div>
+
+
+  </main>
+
+
+  <!-- Rodapé -->
+  <footer id="footer" class="footer">
+    <div class="container text-center">
+      <a href="{% url 'tarefa:home' %}" class="logo d-flex justify-content-center mb-3">
+        <img src="{% static 'img/logoorganize.svg' %}" alt="Logo do site" style="max-height: 40px;">
+      </a>
+
+      <div class="footer-contact mb-3">
+        <p><strong>Telefone:</strong> +55 77 9.9999-9999</p>
+        <p><strong>Email:</strong> info@example.com</p>
+      </div>
+
+      <div class="social-links d-flex justify-content-center mb-3">
+        <a href="#"><i class="bi bi-twitter-x"></i></a>
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-instagram"></i></a>
+        <a href="#"><i class="bi bi-linkedin"></i></a>
+      </div>
+
+      <div class="copyright">
+        <p>© <span>Direitos Autorais</span> <strong class="px-1">binho_ads</strong> <span>Todos os direitos reservados</span></p>
+        <div class="credits">
+          Desenvolvido por <a href="#">binho_ads</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+  <script>
+    function toggleDropdown() {
+      const menu = document.getElementById("profileDropdown");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    // Fecha o menu dropdown se clicar fora
+    window.onclick = function(event) {
+      if (!event.target.matches('.profile-circle')) {
+        const dropdown = document.getElementById("profileDropdown");
+        if (dropdown && dropdown.style.display === "block") {
+          dropdown.style.display = "none";
+        }
+      }
+    }
+
+    // Pega as iniciais do username diretamente no JS
+    document.addEventListener("DOMContentLoaded", () => {
+      const username = "{{ full_name }}";  // Pega o username do Django
+      const initials = username.split(" ").map(n => n[0]).join("").toUpperCase(); // Extrai as iniciais
+      document.querySelector(".profile-circle").textContent = initials;  // Exibe as iniciais no círculo
+    });
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,209 @@
+<!-- 
+<h2>Login</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+</form> 
+-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt_BR">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Pagina Login - Organize</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="{% static 'img/favicon.png' %}" rel="icon">
+  <link href="{% static 'img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'css/main.css' %}" rel="stylesheet">
+</head>
+
+<body class="starter-page-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <a href="{% url 'tarefa:home' %}" class="logo d-flex align-items-center me-auto me-xl-0">
+        <img src="{% static 'img\logoorganize.svg' %}" alt="Logo do site" class="img-fluid">
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="{% url 'tarefa:home' %}" class="active">Início</a></li>
+          <li class="current"><a href="#">Sobre Nós</a></li>
+
+            <!-- Botões dentro do menu para mobile -->
+          <li class="d-xl-none"><a href="{% url 'usuario:registrar' %}" class="btn-getstarted1">Cadastre-se</a></li>
+          <li class="d-xl-none"><a href="{% url 'usuario:login' %}" class="btn-getstarted">Login</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+      <div class="d-none d-xl-block">
+        <a class="btn-getstarted1" href="{% url 'usuario:registrar' %}">Cadastre-se</a>
+        <a class="btn-getstarted" href="{% url 'usuario:login' %}">Login</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    
+        <!-- Page Title -->
+    <div class="page-title1 light-background">
+    </div><!-- End Page Title -->
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section light-background">
+
+     <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Login</h2>
+        <p>Faça o Login</p>
+      </div><!-- End Section Title -->
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row g-4 g-lg-5">
+          <div class="col-lg-7"> <!-- Login-->
+            <div class="contact-form" data-aos="fade-up" data-aos-delay="300">
+                <h3>Acesse sua conta</h3>
+                <p>Insira suas credenciais para entrar.</p>
+
+                <!-- Formulário de Login -->
+                <form method="POST" action="{% url 'usuario:login' %}" class="enviar-email-form" data-aos="fade-up" data-aos-delay="200">
+                    {% csrf_token %} 
+
+                    <div class="row gy-4">
+                        <!-- Campo para o Nome de usuario -->
+                        <div class="col-12">
+                            <input type="text" name="username" class="form-control" placeholder="Nome de Usuario" required value="{{ form.username.value|default:'' }}">
+                            <!-- Exibir erros se houver -->
+                            {% if form.username.errors %}
+                                <div class="error-message">
+                                    {% for error in form.username.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Campo para a Senha -->
+                        <div class="col-12">
+                            <input type="password" name="password" class="form-control" placeholder="Sua Senha" required value="{{ form.password.value|default:'' }}">
+                            <!-- Exibir erros se houver -->
+                            {% if form.password.errors %}
+                                <div class="error-message">
+                                    {% for error in form.password.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Botão de Envio -->
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-enviar">Entrar</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- Fim do Formulário de Login -->
+            </div>
+          </div> <!-- Login-->
+
+          <div class="col-lg-5"> <!-- Informações-->
+            <div class="info-box" data-aos="fade-up" data-aos-delay="200">
+              <h3>Informações de Contato</h3>
+              <p>Se você tiver problemas para acessar sua conta, entre em contato conosco.</p>
+
+              <div class="info-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box">
+                  <i class="bi bi-envelope"></i>
+                </div>
+                <div class="content">
+                  <h4>Email</h4>
+                  <p>suporte@example.com</p>
+                </div>
+              </div>
+
+              <div class="info-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon-box">
+                  <i class="bi bi-telephone"></i>
+                </div>
+                <div class="content">
+                  <h4>Telefone</h4>
+                  <p>+55 77 99999-9999</p>
+                </div>
+              </div>
+
+            </div>
+          </div> <!-- Informações-->
+
+        </div>
+
+      </div>
+
+  </main>
+
+  <!-- Rodapé -->
+  <footer id="footer" class="footer">
+    <div class="container text-center">
+      <a href="{% url 'tarefa:home' %}" class="logo d-flex justify-content-center mb-3">
+        <img src="{% static 'img/logoorganize.svg' %}" alt="Logo do site" style="max-height: 40px;">
+      </a>
+
+      <div class="footer-contact mb-3">
+        <p><strong>Telefone:</strong> +55 77 9.9999-9999</p>
+        <p><strong>Email:</strong> info@example.com</p>
+      </div>
+
+      <div class="social-links d-flex justify-content-center mb-3">
+        <a href="#"><i class="bi bi-twitter-x"></i></a>
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-instagram"></i></a>
+        <a href="#"><i class="bi bi-linkedin"></i></a>
+      </div>
+
+      <div class="copyright">
+        <p>© <span>Direitos Autorais</span> <strong class="px-1">binho_ads</strong> <span>Todos os direitos reservados</span></p>
+        <div class="credits">
+          Desenvolvido por <a href="#">binho_ads</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>
